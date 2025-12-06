@@ -7,9 +7,6 @@ const hashKey = (key) => {
     return crypto.createHash('sha256').update(key).digest('hex');
 };
 
-// @desc    Generate a new API key
-// @route   POST /keys/create
-// @access  Private
 export const createKey = async (req, res) => {
     const { name, expiresInDays } = req.body;
 
@@ -31,7 +28,7 @@ export const createKey = async (req, res) => {
             expiresAt,
         });
 
-        // Return the RAW key only once
+        // Return the raw key only once
         res.status(201).json({
             _id: apiKey._id,
             name: apiKey.name,
@@ -44,13 +41,33 @@ export const createKey = async (req, res) => {
     }
 };
 
-// @desc    List active keys
-// @route   GET /keys
-// @access  Private
 export const getKeys = async (req, res) => {
     try {
         const keys = await ApiKey.find({ userId: req.user._id });
         res.json(keys);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+export const revokeKey = async (req, res) => {
+    const { id } = req.body;
+
+    if (!id) {
+        return res.status(400).json({ message: 'Key ID is required' });
+    }
+
+    try {
+        const apiKey = await ApiKey.findOne({ _id: id, userId: req.user._id });
+
+        if (!apiKey) {
+            return res.status(404).json({ message: 'API Key not found' });
+        }
+
+        apiKey.isRevoked = true;
+        await apiKey.save();
+
+        res.json({ message: 'API Key revoked successfully' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
