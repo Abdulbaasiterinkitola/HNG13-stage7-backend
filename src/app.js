@@ -20,6 +20,15 @@ app.use(helmet());
 app.use(morgan('dev'));
 
 // Routes Placeholder
+import authRoutes from './routes/authRoutes.js';
+import keyRoutes from './routes/keyRoutes.js';
+
+// ... (imports)
+
+// Routes
+app.use('/auth', authRoutes);
+app.use('/keys', keyRoutes);
+
 app.get('/', (req, res) => {
     res.json({ message: 'This is my HNG13 backend stage 7 task - Mini Authentication + API Key System' });
 });
