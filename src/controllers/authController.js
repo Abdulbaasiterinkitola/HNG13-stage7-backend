@@ -7,7 +7,6 @@ const generateToken = (id) => {
   });
 };
 
-// POST /auth/signup
 export const registerUser = async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -39,7 +38,6 @@ export const registerUser = async (req, res) => {
   }
 };
 
-// POST /auth/login
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 

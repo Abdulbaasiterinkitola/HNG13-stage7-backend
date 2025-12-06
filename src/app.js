@@ -19,13 +19,9 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
 
-// Routes Placeholder
 import authRoutes from './routes/authRoutes.js';
 import keyRoutes from './routes/keyRoutes.js';
 
-// ... (imports)
-
-// Routes
 app.use('/auth', authRoutes);
 app.use('/keys', keyRoutes);
 

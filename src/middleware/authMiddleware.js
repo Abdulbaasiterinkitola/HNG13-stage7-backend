@@ -12,7 +12,7 @@ export const protect = async (req, res, next) => {
     let token;
     const apiKeyHeader = req.headers['x-api-key'];
 
-    // 1. Check for Bearer Token (User Auth)
+    // Check for Bearer Token
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         try {
             token = req.headers.authorization.split(' ')[1];
@@ -24,7 +24,7 @@ export const protect = async (req, res, next) => {
         }
     }
 
-    // 2. Check for API Key (Service Auth)
+    // Check for API Key
     if (apiKeyHeader) {
         try {
             const hashedKey = hashKey(apiKeyHeader);
